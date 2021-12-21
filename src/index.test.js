@@ -9,12 +9,15 @@ describe('Our first test', ()=> {
 });
 
 describe("index.html", () => {
-  it("should say hello", () => {
+  it("should have h1 that says Users", (done) => {
     const index = fs.readFileSync("./src/index.html","utf-8");
-    const { JSDOM } = jsdom;
-    const dom = new JSDOM(index);
-    const h1 = dom.window.document.getElementsByTagName("h1")[0];
-    expect(h1.innerHTML).to.equal("Hello World from johan !!");
-    dom.window.close();
-  });
-});
+    //const { JSDOM } = jsdom;
+    //const dom = new JSDOM(index);
+    jsdom.env(index, function(err, window){
+      const h1 = window.document.getElementsByTagName("h1")[0];
+      expect(h1.innerHTML).to.equal("Users");
+      done();
+      window.close();
+    });
+  })
+})
